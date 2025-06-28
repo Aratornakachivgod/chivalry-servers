@@ -1,6 +1,6 @@
 import json
-import a2s
 import socket
+import valve.source.a2s
 
 SERVERS = [
     ("95.165.129.226", 7777),
@@ -18,17 +18,18 @@ SERVERS = [
 
 def query_server(ip, port):
     try:
-        server_info = a2s.info((ip, port), timeout=2.0)
-        return {
-            "ip": ip,
-            "port": port,
-            "name": server_info.server_name,
-            "map": server_info.map_name,
-            "players": server_info.player_count,
-            "max_players": server_info.max_players,
-            "region": guess_region(ip),
-        }
-    except (socket.timeout, OSError):
+        with valve.source.a2s.ServerQuerier((ip, port), timeout=2.0) as server:
+            info = server.get_info()
+            return {
+                "ip": ip,
+                "port": port,
+                "name": info["server_name"],
+                "map": info["map"],
+                "players": info["player_count"],
+                "max_players": info["max_players"],
+                "region": guess_region(ip),
+            }
+    except Exception:
         return None
 
 def guess_region(ip):
@@ -53,4 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
