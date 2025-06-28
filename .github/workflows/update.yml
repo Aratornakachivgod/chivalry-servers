@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install A2S library
-        run: pip install a2s
+      - name: Install Valve A2S library
+        run: pip install valve-a2s
 
       - name: Run update script
         run: python update.py
