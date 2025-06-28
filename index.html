@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chivalry Servers</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #eee;
+      padding: 1em;
+    }
+    h1 {
+      text-align: center;
+    }
+    .server {
+      border: 1px solid #444;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 10px;
+      background: #1b1b1b;
+    }
+    .server strong {
+      color: #fff;
+      font-size: 1.2em;
+    }
+    .server small {
+      display: block;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chivalry Servers</h1>
+  <div id="list">Загрузка...</div>
+
+  <script>
+    async function loadServers() {
+      try {
+        const res = await fetch("servers.json?" + Date.now());
+        const servers = await res.json();
+        const container = document.getElementById("list");
+        container.innerHTML = "";
+
+        if (servers.length === 0) {
+          container.textContent = "Нет доступных серверов.";
+          return;
+        }
+
+        servers.forEach(s => {
+          const el = document.createElement("div");
+          el.className = "server";
+          el.innerHTML = `
+            <strong>${s.name}</strong>
+            <small>Карта: ${s.map}</small>
+            <small>Игроков: ${s.players} / ${s.max_players}</small>
+            <small>IP: ${s.ip}:${s.port} | Регион: ${s.region}</small>
+          `;
+          container.appendChild(el);
+        });
+      } catch (e) {
+        document.getElementById("list").textContent = "Ошибка загрузки серверов.";
+      }
+    }
+
+    loadServers();
+  </script>
+</body>
+</html>
