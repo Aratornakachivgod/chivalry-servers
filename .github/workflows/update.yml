@@ -18,7 +18,7 @@ jobs:
           python-version: 3.11
 
       - name: Install A2S library
-        run: pip install a2s
+        run: pip install git+https://github.com/AresChat/a2s.git
 
       - name: Run update script
         run: python update.py
