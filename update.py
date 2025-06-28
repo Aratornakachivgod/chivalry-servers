@@ -1,5 +1,5 @@
 import json
-import a2s
+from a2s import info
 import socket
 
 SERVERS = [
