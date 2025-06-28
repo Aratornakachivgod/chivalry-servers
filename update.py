@@ -1,36 +1,37 @@
-import a2s
 import json
-import os
+import a2s
+from datetime import datetime
 
 SERVERS = [
-    ("95.165.129.226", 7777),
-    ("45.138.25.18", 7777),
-    # добавь сюда свои сервера, если нужно
+    ("134.119.187.18", 11729),
+    ("185.107.96.212", 7777),
+    ("65.109.87.226", 17833),
+    ("208.115.196.100", 7004),
+    ("65.109.87.226", 17843),
 ]
 
-def query_server(ip, port):
+results = []
+
+for ip, port in SERVERS:
     try:
         info = a2s.info((ip, port), timeout=2.0)
-        return {
+        results.append({
             "ip": ip,
             "port": port,
             "name": info.server_name,
             "map": info.map_name,
-            "players": f"{info.player_count}/{info.max_players}",
-        }
+            "players": info.player_count,
+            "max_players": info.max_players,
+            "game": info.game,
+            "updated": datetime.utcnow().isoformat() + "Z"
+        })
     except Exception as e:
-        print(f"[!] Failed {ip}:{port} — {e}")
-        return {
+        results.append({
             "ip": ip,
             "port": port,
             "error": str(e),
-        }
+            "updated": datetime.utcnow().isoformat() + "Z"
+        })
 
-def main():
-    results = [query_server(ip, port) for ip, port in SERVERS]
-    os.makedirs("data", exist_ok=True)
-    with open("data/servers.json", "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
-
-if __name__ == "__main__":
-    main()
+with open("servers.json", "w", encoding="utf-8") as f:
+    json.dump(results, f, indent=2, ensure_ascii=False)
