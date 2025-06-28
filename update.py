@@ -18,14 +18,14 @@ SERVERS = [
 
 def query_server(ip, port):
     try:
-        info = a2s.info((ip, port), timeout=2.0)
+        server_info = info((ip, port), timeout=2.0) 
         return {
             "ip": ip,
             "port": port,
-            "name": info.server_name,
-            "map": info.map_name,
-            "players": info.player_count,
-            "max_players": info.max_players,
+            "name": server_info.server_name,
+            "map": server_info.map_name,
+            "players": server_info.player_count,
+            "max_players": server_info.max_players,
             "region": guess_region(ip),
         }
     except (socket.timeout, OSError):
