@@ -26,7 +26,7 @@ jobs:
       - name: Run update.py
         run: python update.py
 
-      - name: Commit and push
+      - name: Commit and push servers.json
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
