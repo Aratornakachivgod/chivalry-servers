@@ -1,5 +1,5 @@
 import json
-from a2s import info
+import a2s
 import socket
 
 SERVERS = [
@@ -18,7 +18,7 @@ SERVERS = [
 
 def query_server(ip, port):
     try:
-        server_info = info((ip, port), timeout=2.0) 
+        server_info = a2s.info((ip, port), timeout=2.0)
         return {
             "ip": ip,
             "port": port,
@@ -53,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
