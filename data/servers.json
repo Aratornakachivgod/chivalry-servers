@@ -1,0 +1,12 @@
+[
+  {
+    "ip": "95.165.129.226",
+    "port": 7777,
+    "error": "module 'a2s' has no attribute 'info'"
+  },
+  {
+    "ip": "45.138.25.18",
+    "port": 7777,
+    "error": "module 'a2s' has no attribute 'info'"
+  }
+]
